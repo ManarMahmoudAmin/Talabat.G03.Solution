@@ -6,45 +6,63 @@ namespace Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            var webApplicationBuilder = WebApplication.CreateBuilder(args); //the builder that will create our web application
-            /*When we create the webApplicationBuilder --> start to configure 
-			 *We Configure the webApplicationBuilder with 7 things 
-		   	 *The Srvices is one of them*/
 
-            #region Configure Service
-            // Add services to the container. Register the services to the Dependency Injection Container
+            var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-            webApplicationBuilder.Services.AddControllers();// Register Services requierd by APIs
+            #region Configure Service method from dot net 5 
+            // Add services to the container.
 
-            #region Register Swagger Services in the DI Container
+            webApplicationBuilder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
-            #endregion
 
-
-            webApplicationBuilder.Services.AddDbContext<StoreContext>(Options =>
+            webApplicationBuilder.Services.AddDbContext<StoreContext>(option =>
             {
-                Options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
+                option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
             #endregion
 
-            var app = webApplicationBuilder.Build();  //the Kestrel 
+            var app = webApplicationBuilder.Build();
 
-            #region Configure Kestrel Middelware
-            // Configure the HTTP request pipeline. // determine the middleware of the app // NOTE: the middleware must be in order
+            using var scop = app.Services.CreateScope();
+
+            var services = scop.ServiceProvider;
+
+            var _dbContext = services.GetRequiredService<StoreContext>();
+            // ask clr for creating object from dbcontext explicitly 
+
+            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+            try
+            {
+                await _dbContext.Database.MigrateAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+
+                var logger = loggerFactory.CreateLogger<Program>();
+                logger.LogError(ex.StackTrace, "an error has been occured during apply migration");
+            }
+
+            #region Configure Kestrel Middleware
+            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
-            {//Document our API // no need to Document API in Production phase as it will be deployed on server and consumed by the frontend/mobile developer
+            {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
 
-            app.MapControllers(); //reads the route of the controller from the controller Attribute Decorator
+            app.UseHttpsRedirection();
+
+
+            app.MapControllers();
             #endregion
+
+
 
             app.Run();
         }
