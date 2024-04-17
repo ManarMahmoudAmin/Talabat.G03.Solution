@@ -1,4 +1,4 @@
-﻿namespace Talabat.APIs.DTOs.Errors
+﻿namespace Talabat.APIs.Errors
 {
     public class ApiResponse
     {
@@ -19,7 +19,7 @@
                 401 => "Authorized, you are not",
                 404 => "Resource was not found",
                 500 => "Errors are the path to the dark side. Errors lead to anger. Anger leads to hate. Hate leads to career change.",
-                  _  => null
+                _ => null
             };
 
         }

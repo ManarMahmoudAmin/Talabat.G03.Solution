@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
+using Talabat.APIs.DTOs;
 using Talabat.Core.Entities;
 
-namespace Talabat.APIs.DTOs.Helpers
+namespace Talabat.APIs.Helpers
 {
     public class MappingProfiles : Profile
     {
