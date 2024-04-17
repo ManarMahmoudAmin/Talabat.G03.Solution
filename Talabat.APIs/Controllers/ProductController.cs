@@ -22,6 +22,8 @@ namespace Talabat.APIs.Controllers
             _productsRepo = productsRepo;
             _mapper = mapper;
         }
+        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
