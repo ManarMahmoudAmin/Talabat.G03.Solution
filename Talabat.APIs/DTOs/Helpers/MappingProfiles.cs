@@ -5,11 +5,17 @@ namespace Talabat.APIs.DTOs.Helpers
 {
     public class MappingProfiles : Profile
     {
-        public MappingProfiles()
+        private readonly IConfiguration _configuration;
+
+        public MappingProfiles(IConfiguration configuration)
         {
+            _configuration = configuration;
+
             CreateMap<Product, ProductToReturnDto>()
                 .ForMember(P => P.Brand, O => O.MapFrom(S => S.Brand.Name))
-                .ForMember(P => P.Category, O => O.MapFrom(S => S.Category.Name));
+                .ForMember(P => P.Category, O => O.MapFrom(S => S.Category.Name))
+                //.ForMember(P => P.PictureUrl, O => O.MapFrom(S => $"{_configuration["ApiBaseUrl"]}/{S.PictureUrl}"));
+                .ForMember(P => P.Category, O => O.MapFrom<ProductPictureUrlResolver>());
         }
     }
 }
