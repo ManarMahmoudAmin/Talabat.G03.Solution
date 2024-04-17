@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Errors;
+using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
 using Talabat.Core.Repositories.Contract;
@@ -22,36 +23,16 @@ namespace Talabat.APIs
 
             webApplicationBuilder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            webApplicationBuilder.Services.AddEndpointsApiExplorer();
-            webApplicationBuilder.Services.AddSwaggerGen();
+           
+            webApplicationBuilder.Services.AddSwaggerServices();
 
             webApplicationBuilder.Services.AddDbContext<StoreContext>(option =>
             {
                 option.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            webApplicationBuilder.Services.AddScoped(typeof(IGenaricRepository<>), typeof(GenericRepository<>));
-
-            webApplicationBuilder.Services.AddAutoMapper(typeof(MappingProfiles));
-
-            webApplicationBuilder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-
-                options.InvalidModelStateResponseFactory = (actionContext) =>
-                {
-                    var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-                    .SelectMany(P => P.Value.Errors)
-                    .Select(E => E.ErrorMessage)
-                    .ToList();
-
-                    var response = new ApiValidationErrorResponse()
-                    {
-                        Errors = errors
-                    };
-                    return new BadRequestObjectResult(response);
-                };
-            });
-                    #endregion
+            webApplicationBuilder.Services.AddApplicationServices();
+            #endregion
 
                     var app = webApplicationBuilder.Build();
 
@@ -83,8 +64,7 @@ namespace Talabat.APIs
 
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerServicesMiddlwares();
             }
             app.UseStatusCodePagesWithReExecute("errors/{0}");
 
