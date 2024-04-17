@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Talabat.APIs.DTOs;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Specifications;
@@ -12,33 +14,35 @@ namespace Talabat.APIs.Controllers
     public class ProductsController : BaseApiController
     {
         private readonly IGenaricRepository<Product> _productsRepo;
+        private readonly IMapper _mapper;
 
-        public ProductsController(IGenaricRepository<Product> productsRepo)
+        public ProductsController(IGenaricRepository<Product> productsRepo, IMapper mapper)
         {
             _productsRepo = productsRepo;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
         {
             var spec = new ProductWithBrandAndCategorySpecifications();
-            var products = await _productsRepo.GetWithSpecAsync(spec);
+            var products = await _productsRepo.GetAllWithSpecAsync(spec);
 
-            return Ok(products);
+            return Ok(_mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDto>>(products));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> GetProductById(int id)
+        public async Task<ActionResult<ProductToReturnDto>> GetProductById(int id)
         {
             var spec = new ProductWithBrandAndCategorySpecifications(id);
-            var products = await _productsRepo.GetWithSpecAsync(spec);
+            var product = await _productsRepo.GetWithSpecAsync(spec);
 
-            if (products is null)
+            if (product is null)
             {
                 return NotFound(new { message = "Not found", statsCode = 404 }); // 404 
             }
 
-            return Ok(products); // 200 
+            return Ok(_mapper.Map<Product, ProductToReturnDto>(product)); // 200 
         }
     }
 }
