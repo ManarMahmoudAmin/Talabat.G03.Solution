@@ -11,8 +11,8 @@ using Talabat.Infrastructure.Data;
 namespace Talabat.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240411191126_ProductModule")]
-    partial class ProductModule
+    [Migration("20240419035347_Manar")]
+    partial class Manar
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

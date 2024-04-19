@@ -15,15 +15,22 @@ namespace Talabat.APIs.Controllers
     public class ProductsController : BaseApiController
     {
         private readonly IGenaricRepository<Product> _productsRepo;
+        private readonly IGenaricRepository<ProductBrand> _brandsRepo;
+        private readonly IGenaricRepository<ProductCategory> _categoriesRepo;
         private readonly IMapper _mapper;
 
-        public ProductsController(IGenaricRepository<Product> productsRepo, IMapper mapper)
+        public ProductsController(IGenaricRepository<Product> productsRepo,
+                                  IGenaricRepository<ProductBrand> brandsRepo,
+                                  IGenaricRepository<ProductCategory> categoriesRepo,
+                                  IMapper mapper)
         {
             _productsRepo = productsRepo;
+            _brandsRepo = brandsRepo;
+            _categoriesRepo = categoriesRepo;
             _mapper = mapper;
         }
-        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+       [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+       [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
@@ -42,10 +49,24 @@ namespace Talabat.APIs.Controllers
 
             if (product is null)
             {
-                return NotFound(new ApiResponse(404)); 
+                return NotFound(new ApiResponse(404));
             }
 
             return Ok(_mapper.Map<Product, ProductToReturnDto>(product)); // 200 
+        }
+
+        [HttpGet("brands")]
+        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetAllBrands()
+        {
+            var brands = await _brandsRepo.GetAllAsync();
+            return Ok(brands);            
+        }
+        
+        [HttpGet("categories")]
+        public async Task<ActionResult<IEnumerable<ProductCategory>>> GetAllCategories()
+        {
+            var categories = await _categoriesRepo.GetAllAsync();
+            return Ok(categories);
         }
     }
 }

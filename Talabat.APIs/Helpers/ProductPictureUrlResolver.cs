@@ -16,7 +16,7 @@ namespace Talabat.APIs.Helpers
         public string Resolve(Product source, ProductToReturnDto destination, string destMember, ResolutionContext context)
         {
             if (!string.IsNullOrEmpty(source.PictureUrl))
-                return $"{"https://localhost:7139"}/{source.PictureUrl}";
+                return $"{"https://localhost:7197"}/{source.PictureUrl}";
             return string.Empty ;
         }
        

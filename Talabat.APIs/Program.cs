@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Extensions;
 using Talabat.APIs.Helpers;
@@ -33,49 +34,48 @@ namespace Talabat.APIs
 
             webApplicationBuilder.Services.AddApplicationServices();
             #endregion
+            var app = webApplicationBuilder.Build();
 
-                    var app = webApplicationBuilder.Build();
+            using var scope = app.Services.CreateScope();
 
-            using var scop = app.Services.CreateScope();
-
-            var services = scop.ServiceProvider;
+            var services = scope.ServiceProvider;
 
             var _dbContext = services.GetRequiredService<StoreContext>();
-            // ask clr for creating object from dbcontext explicitly 
+
 
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+
             try
             {
-                await _dbContext.Database.MigrateAsync();
-                await StoreContextSeed.SeedAsync(_dbContext);
-
+                await _dbContext.Database.MigrateAsync(); //Update-Database
+                await StoreContextSeed.SeedAsync(_dbContext); //Data Seeding
             }
             catch (Exception ex)
             {
+
                 Console.WriteLine(ex);
 
                 var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex.StackTrace, "an error has been occured during apply migration");
+                logger.LogError(ex, "an error has been occured during apply the migration");
             }
 
             #region Configure Kestrel Middleware
             // Configure the HTTP request pipeline.
-            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseMiddleware<ExceptionMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwaggerServicesMiddlwares();
             }
-            app.UseStatusCodePagesWithReExecute("errors/{0}");
+            //app.UseStatusCodePagesWithReExecute("/errors/{0}");
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.MapControllers();
+            
             #endregion
-
-
-
             app.Run();
         }
     }
