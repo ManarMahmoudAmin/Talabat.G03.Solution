@@ -12,22 +12,25 @@ namespace Talabat.Infrastructure
 {
     internal static class SpecificationsEvalutor<T> where T : BaseEntity
     {
-        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecifications<T> specs)
+        public static IQueryable<T> GetQuery(IQueryable<T> inputQuery, ISpecifications<T> spec)
         {
            /// _dbContext.Products.Where(P => P.Id == id).Include(P => P.Brand).Include(P =>
            /// P.Category).FirstOrDefaultAsync();
 
             var query = inputQuery;
-            if(specs.Criteria is not null) 
-                query = query.Where(specs.Criteria);
+            if(spec.Criteria is not null) 
+                query = query.Where(spec.Criteria);
 
-            if (specs.OrderBy is not null)
-                query = query.OrderBy(specs.OrderBy);
+            if (spec.OrderBy is not null)
+                query = query.OrderBy(spec.OrderBy);
 
-            else if (specs.OrderByDesc is not null)
-                query = query.OrderByDescending(specs.OrderByDesc);
+            else if (spec.OrderByDesc is not null)
+                query = query.OrderByDescending(spec.OrderByDesc);
 
-                query = specs.Includes.Aggregate(query, (currentQuery, IncludeExpression) => currentQuery.Include(IncludeExpression));
+            if (spec.IsPaginationEnabled) // if IsPaginationEnabled not found -> skip = 0 and take = 0 by default
+                query = query.Skip(spec.Skip).Take(spec.Take);
+
+            query = spec.Includes.Aggregate(query, (currentQuery, IncludeExpression) => currentQuery.Include(IncludeExpression));
             return query;
         }
     }

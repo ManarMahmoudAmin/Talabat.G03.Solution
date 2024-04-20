@@ -9,35 +9,36 @@ namespace Talabat.Core.Specifications.ProductSpecs
 {
     public class ProductWithBrandAndCategorySpecifications :BaseSpecifications<Product>
     {
-        public ProductWithBrandAndCategorySpecifications(string sort, int? brandId, int? categoryId)
+        public ProductWithBrandAndCategorySpecifications(ProductSpecParams specParams)
                     : base(P =>
-                            (!brandId.HasValue || P.BrandId == brandId.Value) &&
-                            (!categoryId.HasValue || P.CategoryId == categoryId.Value)
+                            (!specParams.BrandId.HasValue || P.BrandId == specParams.BrandId.Value) &&
+                            (!specParams.CategoryId.HasValue || P.CategoryId == specParams.CategoryId.Value)
                          )
         {
             Includes.Add(P => P.Brand);
             Includes.Add(P => P.Category);
 
-            if (!string.IsNullOrEmpty(sort))
+            if (!string.IsNullOrEmpty(specParams.Sort))
             {
-                switch (sort)
+                switch (specParams.Sort)
                 {
                     case "priceAsc":
-                        //OrderBy = P => P.Price;
-                        AddOrderBy(P => P.Price);
+                        //OrderBy = p => p.Price;
+                        AddOrderBy(p => p.Price);
                         break;
-                    case "PriceDesc":
-                        //OrderByDesc = P => P.Price; 
-                        AddOrderBy(P => P.Price);
+                    case "priceDesc":
+                        AddOrderByDesc(p => p.Price);
                         break;
                     default:
-                        //OrderBy = P => P.Name;
-                        AddOrderBy(P => P.Name);
+                        AddOrderBy(p => p.Name);
                         break;
-                } 
+                }
             }
             else
-                AddOrderBy(P => P.Name);
+                AddOrderBy(p => p.Name);
+
+            ApplayPagination((specParams.PageIndex - 1) * specParams.PageSize, specParams.PageSize);
+
         }
         public ProductWithBrandAndCategorySpecifications(int id):base(P => P.Id == id)
         {
