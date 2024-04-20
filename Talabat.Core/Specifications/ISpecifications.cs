@@ -13,5 +13,7 @@ namespace Talabat.Core.Specifications
         // dbContext.Set<Product>().Where(p => p.Id == id).Include(p => p.Brand).Include(p => p.Category).FirstOrDefaultAsync() as T;
         public Expression<Func<T, bool>> Criteria { get; set; }
         public List<Expression<Func<T,object>>> Includes { get; set; }
+        public Expression<Func<T, object>> OrderBy {  get; set; }
+        public Expression<Func<T, object>> OrderByDesc { get; set; }
     }
 }

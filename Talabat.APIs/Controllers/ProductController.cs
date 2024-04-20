@@ -33,7 +33,7 @@ namespace Talabat.APIs.Controllers
        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort)
         {
             var spec = new ProductWithBrandAndCategorySpecifications();
             var products = await _productsRepo.GetAllWithSpecAsync(spec);

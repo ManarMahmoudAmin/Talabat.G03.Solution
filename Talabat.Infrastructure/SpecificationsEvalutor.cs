@@ -21,7 +21,13 @@ namespace Talabat.Infrastructure
             if(specs.Criteria is not null) 
                 query = query.Where(specs.Criteria);
 
-            query = specs.Includes.Aggregate(query, (currentQuery, IncludeExpression) => currentQuery.Include(IncludeExpression));
+            if (specs.OrderBy is not null)
+                query = query.OrderBy(specs.OrderBy);
+
+            else if (specs.OrderByDesc is not null)
+                query = query.OrderByDescending(specs.OrderByDesc);
+
+                query = specs.Includes.Aggregate(query, (currentQuery, IncludeExpression) => currentQuery.Include(IncludeExpression));
             return query;
         }
     }
