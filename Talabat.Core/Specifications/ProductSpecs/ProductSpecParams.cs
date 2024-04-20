@@ -14,9 +14,14 @@ namespace Talabat.Core.Specifications.ProductSpecs
         public int PageSize
         {
             get { return pageSize; }
-            set { pageSize = value > MaxPageSize ? MaxPageSize : value; }
+            set { pageSize = (value > MaxPageSize || value <= 0) ? MaxPageSize : value; }
         }
-        public int PageIndex { get; set; } = 1; 
+        private int pageIndex = 1;
+        public int PageIndex
+        {
+            get { return pageIndex; }
+            set { pageIndex = value < pageIndex ? pageIndex : value; }
+        }
         public string? Sort { get; set; }
         public int? BrandId { get; set; }
         public int? CategoryId { get; set; }
