@@ -13,7 +13,6 @@ using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Microsoft.Extensions.DependencyInjection;
-using Talabat.Infrastructure.Basket_Repository;
 
 namespace Talabat.APIs
 {
@@ -45,7 +44,6 @@ namespace Talabat.APIs
             return ConnectionMultiplexer.Connect("connection");
            });
 
-            webApplicationBuilder.Services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
 
             #endregion
             var app = webApplicationBuilder.Build();
