@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Talabat.Core.Entities.Product;
+using Talabat.Core.Entities;
 
 namespace Talabat.Infrastructure.Data.Config
 {
-    internal class ProductCategoryConfigurations : IEntityTypeConfiguration<ProductCategory>
+    internal class ProductBrandConfigurations : IEntityTypeConfiguration<ProductBrand>
     {
-        public void Configure(EntityTypeBuilder<ProductCategory> builder)
+        public void Configure(EntityTypeBuilder<ProductBrand> builder)
         {
-            builder.Property(C => C.Name)
+            builder.Property(B => B.Name)
                 .IsRequired();
         }
     }

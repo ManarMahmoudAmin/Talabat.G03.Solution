@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talabat.Core.Entities.Product
+namespace Talabat.Core.Entities
 {
-    public class ProductCategory : BaseEntity
+    public class ProductBrand : BaseEntity
     {
         public string Name { get; set; }
     }
