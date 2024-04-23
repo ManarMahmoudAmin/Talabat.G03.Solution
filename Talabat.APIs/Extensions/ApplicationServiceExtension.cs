@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
+using StackExchange.Redis;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
 using Talabat.Core.Repositories.Contract;
@@ -33,6 +34,7 @@ namespace Talabat.APIs.Extensions
                     return new BadRequestObjectResult(response);
                 };
             });
+
 
             return services;
         }

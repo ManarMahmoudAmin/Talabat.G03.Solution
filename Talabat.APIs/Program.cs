@@ -2,13 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using StackExchange.Redis;
 using Talabat.APIs.Errors;
 using Talabat.APIs.Extensions;
+using StackExchange.Redis;
 using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Infrastructure;
 using Talabat.Infrastructure.Data;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Talabat.APIs
 {
@@ -33,6 +37,14 @@ namespace Talabat.APIs
             });
 
             webApplicationBuilder.Services.AddApplicationServices();
+
+           webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>(serviceProvider =>
+           {
+            var connection = webApplicationBuilder.Configuration.GetConnectionString("Redis");
+            return ConnectionMultiplexer.Connect("connection");
+           });
+
+
             #endregion
             var app = webApplicationBuilder.Build();
 
