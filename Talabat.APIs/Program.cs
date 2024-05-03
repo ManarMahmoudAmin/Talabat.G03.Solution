@@ -15,6 +15,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Talabat.Infrastructure.Basket_Repository;
 using Talabat.Infrastructure._Data;
 using Talabat.Infrastructure._Identity;
+using Microsoft.AspNetCore.Identity;
+using Talabat.Core.Entitites.Identity;
 
 namespace Talabat.APIs
 {
@@ -25,7 +27,7 @@ namespace Talabat.APIs
 
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-            #region Configure Service method from dot net 5 
+            #region Configure Service method from .net 5.0 
             // Add services to the container.
 
             webApplicationBuilder.Services.AddControllers();
@@ -45,7 +47,11 @@ namespace Talabat.APIs
                 options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
             });
 
-           webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>(serviceProvider =>
+			webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+			{
+			}).AddEntityFrameworkStores<ApplicationIdentityDbContext>();
+
+			webApplicationBuilder.Services.AddScoped<IConnectionMultiplexer>(serviceProvider =>
            {
             var connection = webApplicationBuilder.Configuration.GetConnectionString("Redis");
             return ConnectionMultiplexer.Connect("connection");
@@ -71,7 +77,9 @@ namespace Talabat.APIs
                 await StoreContextSeed.SeedAsync(_dbContext); //Data Seeding
 
                 await _identityDbContext.Database.MigrateAsync();
-            }
+				var _userManger = services.GetRequiredService<UserManager<ApplicationUser>>();
+				await ApplicationIdentityContextSeed.SeedUsersAsync(_userManger);
+			}
             catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<Program>();
