@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.DTOs;
@@ -30,10 +31,9 @@ namespace Talabat.APIs.Controllers
             _categoriesRepo = categoriesRepo;
             _mapper = mapper;
         }
-       [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
-       [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
 
-        [HttpGet]
+		[Authorize]
+		[HttpGet]
         public async Task<ActionResult<IReadOnlyList<Pagination<ProductToReturnDto>>>> GetProducts([FromQuery] ProductSpecParams specParams)
         {
             var spec = new ProductWithBrandAndCategorySpecifications(specParams);
@@ -47,8 +47,10 @@ namespace Talabat.APIs.Controllers
             return Ok(new Pagination<ProductToReturnDto>(specParams.PageIndex, specParams.PageSize, count, data));
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ProductToReturnDto>> GetProductById(int id)
+		[HttpGet("{id}")]
+		[ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+		[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+		public async Task<ActionResult<ProductToReturnDto>> GetProductById(int id)
         {
             var spec = new ProductWithBrandAndCategorySpecifications(id);
             var product = await _productsRepo.GetWithSpecAsync(spec);
