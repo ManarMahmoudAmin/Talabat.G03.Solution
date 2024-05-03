@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Talabat.APIs.DTOs;
-using Talabat.Core.Entities.Basket;
 using Talabat.Core.Entities.Product;
+using Talabat.Core.Entitites.Basket;
 
 namespace Talabat.APIs.Helpers
 {

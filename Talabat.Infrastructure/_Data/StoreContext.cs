@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Entities.Product;
 
-namespace Talabat.Infrastructure.Data
+namespace Talabat.Infrastructure._Data
 {
     public class StoreContext : DbContext
     {
@@ -21,7 +21,7 @@ namespace Talabat.Infrastructure.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         =>
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        
+
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }

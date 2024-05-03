@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Talabat.Core.Entities.Product;
 
-namespace Talabat.Infrastructure.Data
+namespace Talabat.Infrastructure._Data
 {
     public static class StoreContextSeed
     {
@@ -14,7 +15,7 @@ namespace Talabat.Infrastructure.Data
         {
             if (!dbContext.ProductBrands.Any())
             {
-                var brandData = File.ReadAllText("../Talabat.Infrastructure/Data/Dataseed/brands.json");
+                var brandData = File.ReadAllText("../Talabat.Infrastructure/_Data/DataSeed/brands.json");
 
                 var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandData);
 
@@ -30,7 +31,7 @@ namespace Talabat.Infrastructure.Data
 
             if (!dbContext.ProductCategories.Any())
             {
-                var categoriesData = File.ReadAllText("../Talabat.Infrastructure/Data/Dataseed/categories.json");
+                var categoriesData = File.ReadAllText("../Talabat.Infrastructure/_Data/DataSeed/categories.json");
 
                 var categories = JsonSerializer.Deserialize<List<ProductCategory>>(categoriesData);
 
@@ -46,9 +47,9 @@ namespace Talabat.Infrastructure.Data
 
             if (!dbContext.Products.Any())
             {
-                var productsData = File.ReadAllText("../Talabat.Infrastructure/Data/Dataseed/products.json");
 
-                var products = JsonSerializer.Deserialize<List<Product>>(productsData);
+                var productsData = File.ReadAllText("../Talabat.Infrastructure/_Data/DataSeed/products.json");
+    			var products = JsonSerializer.Deserialize<List<Product>>(productsData);
 
                 if (products?.Count > 0)
                 {

@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Talabat.Infrastructure.Data;
+using Talabat.Infrastructure._Data;
+
 
 #nullable disable
 

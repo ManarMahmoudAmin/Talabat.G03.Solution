@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Talabat.Core.Entities.Basket;
+using Talabat.Core.Entitites.Basket;
 
 namespace Talabat.Core.Repositories.Contract
 {
