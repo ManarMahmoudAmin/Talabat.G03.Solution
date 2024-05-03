@@ -29,13 +29,15 @@ namespace Talabat.APIs
 
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
-            #region Configure Service method from .net 5.0 
-            // Add services to the container.
+			#region Configure Service method from .net 5.0 
+			// Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-           
-            webApplicationBuilder.Services.AddSwaggerServices();
+			webApplicationBuilder.Services.AddControllers().AddNewtonsoftJson(options =>
+			{
+				options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+			});            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+			webApplicationBuilder.Services.AddSwaggerServices();
 
             webApplicationBuilder.Services.AddDbContext<StoreContext>(option =>
             {
