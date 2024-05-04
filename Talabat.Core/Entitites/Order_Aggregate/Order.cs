@@ -14,7 +14,7 @@ namespace Talabat.Core.Entitites.Order_Aggregate
 		public OrderStatus Status { get; set; } = OrderStatus.Pending;
 		public Address ShippingAddress { get; set; } = null!;
 		public DeliveyMethod DeliveyMethod { get; set; } = null!;
-		ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
+		public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
 		public decimal SubTotal { get; set; }
 		public string PaymentIntentId { get; set; } = String.Empty;
 		public decimal GetTotal() => SubTotal + DeliveyMethod.Cost;
