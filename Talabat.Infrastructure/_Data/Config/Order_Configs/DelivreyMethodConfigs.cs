@@ -9,9 +9,9 @@ using Talabat.Core.Entitites.Order_Aggregate;
 
 namespace Talabat.Infrastructure._Data.Config.Order_Configs
 {
-	internal class DelivreyMethodConfigs : IEntityTypeConfiguration<DeliveyMethod>
+	internal class DelivreyMethodConfigs : IEntityTypeConfiguration<DeliveryMethod>
 	{
-		public void Configure(EntityTypeBuilder<DeliveyMethod> builder)
+		public void Configure(EntityTypeBuilder<DeliveryMethod> builder)
 		{
 			builder.Property(deliveryMethod => deliveryMethod.Cost).HasColumnType("decimal(12,2)");
 		}

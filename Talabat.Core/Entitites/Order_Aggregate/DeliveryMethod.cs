@@ -7,11 +7,12 @@ using Talabat.Core.Entities;
 
 namespace Talabat.Core.Entitites.Order_Aggregate
 {
-	public class DeliveyMethod : BaseEntity
+	public class DeliveryMethod : BaseEntity
 	{
 		public string ShortName { get; set; } = null!;
 		public string Description { get; set; } = null!;
 		public decimal Cost { get; set; }
-		public string DeliveyTime { get; set; } = null!;
+		public string DeliveryTime { get; set; } = null!;
+
 	}
 }
