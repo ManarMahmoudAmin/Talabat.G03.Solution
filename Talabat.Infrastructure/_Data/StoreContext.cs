@@ -31,5 +31,6 @@ namespace Talabat.Infrastructure._Data
 		public DbSet<OrderItem> OrdersItems { get; set; }
 		public DbSet<DeliveryMethod> DelivreyMethods { get; set; }
 
+
 	}
 }
