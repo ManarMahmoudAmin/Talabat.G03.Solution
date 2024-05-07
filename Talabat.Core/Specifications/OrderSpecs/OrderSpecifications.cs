@@ -15,10 +15,9 @@ namespace Talabat.Core.Specifications.OrderSpecs
                 AddOrderByDesc(order => order.OrderDate);
         }
 
-            public OrderSpecifications(int Id) : base(Order => Order.Id == Id)
-            {
-                AddInclides();
-                AddOrderByDesc(order => order.OrderDate); 
+        public OrderSpecifications(string email, int Id) : base(Order => (Order.BuyerEmail == email && Order.Id == Id))
+        {
+            AddInclides();
         }
             private void AddInclides()
             {
