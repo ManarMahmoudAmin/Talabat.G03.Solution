@@ -1,13 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using StackExchange.Redis;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Talabat.Core.Entities.Order_Aggregate;
 using Talabat.Core.Entities.Product;
-using Talabat.Core.Entitites.Order_Aggregate;
-
+using Order = Talabat.Core.Entities.Order_Aggregate.Order;
 namespace Talabat.Infrastructure._Data
 {
     public class StoreContext : DbContext
@@ -27,7 +23,7 @@ namespace Talabat.Infrastructure._Data
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
         public DbSet<ProductCategory> ProductCategories { get; set; }
-		public DbSet<Order> Orders { get; set; }
+        public DbSet<Order> Orders { get; set; }
 		public DbSet<OrderItem> OrdersItems { get; set; }
 		public DbSet<DeliveryMethod> DelivreyMethods { get; set; }
 

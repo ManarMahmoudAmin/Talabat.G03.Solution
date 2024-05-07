@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.Core.Entities.Order_Aggregate;
 using Talabat.Core.Entities;
 
-namespace Talabat.Core.Entitites.Order_Aggregate
+namespace Talabat.Core.Entities.Order_Aggregate
 {
 	public class Order : BaseEntity
 	{

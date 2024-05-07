@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Talabat.Core.Entitites.Identity;
+using Talabat.Core.Entities.Identity;
 
 namespace Talabat.Infrastructure._Identity
 {

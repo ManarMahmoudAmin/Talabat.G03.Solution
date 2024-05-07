@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Talabat.APIs.DTOs;
 using Talabat.Core.Entities.Product;
-using Talabat.Core.Entitites.Basket;
-using Talabat.Core.Entitites.Identity;
+using Talabat.Core.Entities.Basket;
+using Talabat.Core.Entities.Identity;
 
 namespace Talabat.APIs.Helpers
 {

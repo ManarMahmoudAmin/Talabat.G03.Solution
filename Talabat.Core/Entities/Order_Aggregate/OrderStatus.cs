@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talabat.Core.Entitites.Order_Aggregate
+namespace Talabat.Core.Entities.Order_Aggregate
 {
 	public enum OrderStatus
 	{

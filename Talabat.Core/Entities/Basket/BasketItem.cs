@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talabat.Core.Entitites.Basket
+namespace Talabat.Core.Entities.Basket
 {
     public class BasketItem
     {

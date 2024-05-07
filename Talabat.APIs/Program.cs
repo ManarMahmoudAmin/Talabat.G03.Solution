@@ -17,7 +17,7 @@ using Talabat.Infrastructure.Basket_Repository;
 using Talabat.Infrastructure._Data;
 using Talabat.Infrastructure._Identity;
 using Microsoft.AspNetCore.Identity;
-using Talabat.Core.Entitites.Identity;
+using Talabat.Core.Entities.Identity;
 using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs

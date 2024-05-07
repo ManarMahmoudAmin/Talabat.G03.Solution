@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
-using Talabat.Core.Entitites.Order_Aggregate;
+using Talabat.Core.Entities.Order_Aggregate;
 using Talabat.Core.Services.Contract;
 
 namespace Talabat.APIs.Controllers

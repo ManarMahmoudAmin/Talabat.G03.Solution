@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talabat.Core.Entitites.Identity
+namespace Talabat.Core.Entities.Identity
 {
 	public class ApplicationUser : IdentityUser
 	{

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Talabat.Core;
 using Talabat.Core.Entities.Product;
-using Talabat.Core.Entitites.Order_Aggregate;
+using Talabat.Core.Entities.Order_Aggregate;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
 using Talabat.Core.Specifications.OrderSpecs;

@@ -1,4 +1,4 @@
-﻿namespace Talabat.Core.Entitites.Identity
+﻿namespace Talabat.Core.Entities.Identity
 {
 	public class Address
 	{

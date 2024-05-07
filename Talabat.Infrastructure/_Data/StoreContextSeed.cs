@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Talabat.Core.Entities.Product;
-using Talabat.Core.Entitites.Order_Aggregate;
+using Talabat.Core.Entities.Order_Aggregate;
 
 namespace Talabat.Infrastructure._Data
 {
