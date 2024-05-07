@@ -8,9 +8,10 @@ using Talabat.Core.Repositories.Contract;
 
 namespace Talabat.Core
 {
-	public interface IUnitOfWork : IAsyncDisposable
-	{
-		public IGenaricRepository<T> Repository<T>() where T : BaseEntity;
-		public Task<int> Compelete();
-	}
+    public interface IUnitOfWork : IAsyncDisposable
+    {
+        public IGenericRepository<TEntity> Repository<TEntity>() where TEntity :BaseEntity;
+        public Task<int> Compelete();
+    }
+
 }

@@ -11,9 +11,9 @@ namespace Talabat.APIs.Controllers
     
     public class EmployeesController : BaseApiController
     {
-        private readonly IGenaricRepository<Employee> _employeeRepo;
+        private readonly IGenericRepository<Employee> _employeeRepo;
 
-        public EmployeesController(IGenaricRepository<Employee> employeeRepo) 
+        public EmployeesController(IGenericRepository<Employee> employeeRepo) 
         {
             _employeeRepo = employeeRepo;
         }

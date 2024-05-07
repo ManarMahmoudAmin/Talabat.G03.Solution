@@ -25,6 +25,9 @@ namespace Talabat.APIs.Helpers
 			CreateMap<Address, AddressDto>();
 			CreateMap<Address, AddressDto>().ReverseMap();
 
-		}
-	}
+            //CreateMap<ShippingAddressDTO, Core.Entities.Order_Aggregate.ShippingAddress>();
+
+
+        }
+    }
 }
