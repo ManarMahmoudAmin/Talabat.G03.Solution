@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Talabat.Core;
 using Talabat.Core.Entities.Product;
 using Talabat.Core.Entitites.Order_Aggregate;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
+using Talabat.Core.Specifications.OrderSpecs;
 
 namespace Talabat.Application.OrderService
 {
@@ -89,9 +91,12 @@ namespace Talabat.Application.OrderService
 			throw new NotImplementedException();
 		}
 
-		public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
-		{
-			throw new NotImplementedException();
-		}
-	}
+        public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string buyerEmail)
+        {
+            var ordersRepos = _unitOfWork.Repository<Order>();
+            var orderSpecifications = new OrderSpecifications(buyerEmail);
+			var orders = ordersRepos.GetAllWithSpecAsync(orderSpecifications);
+            return orders;
+        }
+    }
 }
