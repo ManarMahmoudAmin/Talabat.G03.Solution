@@ -9,7 +9,7 @@ namespace Talabat.Core.Specifications.ProductSpecs
 {
     public class ProductsWithFiltrationForCountSpecifications : BaseSpecifications<Product>
     {
-        public ProductsWithFiltrationForCountSpecifications(ProductSpecParams specParams)
+        public ProductsWithFiltrationForCountSpecifications(ProductSpecificationsParams specParams)
             : base(P =>
                     (!specParams.BrandId.HasValue || P.BrandId == specParams.BrandId.Value) &&
                     (!specParams.CategoryId.HasValue || P.CategoryId == specParams.CategoryId.Value)

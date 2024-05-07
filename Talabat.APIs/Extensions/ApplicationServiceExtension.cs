@@ -8,6 +8,7 @@ using Talabat.APIs.Errors;
 using Talabat.APIs.Helpers;
 using Talabat.Application.Auth_Service;
 using Talabat.Application.OrderService;
+using Talabat.Application.ProductSpecs;
 using Talabat.Core;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
@@ -22,6 +23,8 @@ namespace Talabat.APIs.Extensions
         {
             services.AddScoped(typeof(IOrderService), typeof(OrderService));
             // services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            services.AddScoped(typeof(IProductService), typeof(ProductService));
+
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
 			services.AddAutoMapper(typeof(MappingProfiles));

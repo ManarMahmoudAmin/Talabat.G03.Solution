@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Talabat.Core.Specifications.ProductSpecs
 {
-    public class ProductSpecParams
+    public class ProductSpecificationsParams
     {
         private const int MaxPageSize = 10;
 
