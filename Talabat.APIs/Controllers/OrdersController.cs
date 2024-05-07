@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using Talabat.APIs.DTOs;
 using Talabat.APIs.Errors;
 using Talabat.Core.Entities.Order_Aggregate;
@@ -22,6 +24,7 @@ namespace Talabat.APIs.Controllers
         [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Order?>> CreateOrder(OrderDTO model)
         {
             var address = _mapper.Map<ShippingAddressDTO, ShippingAddress>(model.ShippingAddress);
@@ -31,21 +34,32 @@ namespace Talabat.APIs.Controllers
             return Ok(order);
         }
 
-        [HttpGet] 
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrdersForUser(string email)
+        [HttpGet]
+        public async Task<ActionResult<IReadOnlyList<OrderToReturnDTO>>> GetOrdersForUser()
         {
+            var email = User.FindFirstValue(ClaimTypes.Email) ?? String.Empty;
             var orders = await _orderService.GetOrdersForUserAsync(email);
-            return Ok(orders);
+            var orderToReturnDto = _mapper.Map<IReadOnlyList<Core.Entities.Order_Aggregate.Order>, IReadOnlyList<OrderToReturnDTO>>(orders);
+            return Ok(orderToReturnDto);
         }
 
         [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> GetOrderForUser(string email, int id)
+        [Authorize]
+        public async Task<ActionResult<OrderToReturnDTO>> GetOrderForUser(int id)
         {
+            var email = User.FindFirstValue(ClaimTypes.Email) ?? String.Empty;
             var order = await _orderService.GetOrderByIdForUserAsync(email, id);
             if (order is null) return NotFound(new ApiResponse(404));
             return Ok(order);
+        }
+
+        [HttpGet("deliverymethods")]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethod()
+        {
+            var deliveryMethod = await _orderService.GetDelivreyMethodsAsync();
+            return Ok(deliveryMethod);
         }
     }
 }
