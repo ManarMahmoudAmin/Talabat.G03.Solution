@@ -3,20 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Talabat.Infrastructure._Data;
+using Talabat.Infrastructure.Data;
 
 #nullable disable
 
 namespace Talabat.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
-    [Migration("20240504174321_OrderModule")]
-    partial class OrderModule
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,7 +22,95 @@ namespace Talabat.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Talabat.Core.Entities.Product.Product", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<string>("DeliveryTime")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeliveryMethods", (string)null);
+                });
+
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.Order", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BuyerEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("DeliveyMethodId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTimeOffset>("OrderDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("PaymentIntentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("SubTotal")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveyMethodId");
+
+                    b.ToTable("Orders", (string)null);
+                });
+
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.OrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("OrdersItems", (string)null);
+                });
+
+            modelBuilder.Entity("Talabat.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,10 +146,10 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
-            modelBuilder.Entity("Talabat.Core.Entities.Product.ProductBrand", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.ProductBrand", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,10 +163,10 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductBrands");
+                    b.ToTable("ProductBrands", (string)null);
                 });
 
-            modelBuilder.Entity("Talabat.Core.Entities.Product.ProductCategory", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.ProductCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,125 +180,17 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProductCategories");
+                    b.ToTable("ProductCategories", (string)null);
                 });
 
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.DeliveyMethod", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("Cost")
-                        .HasColumnType("decimal(12,2)");
-
-                    b.Property<string>("DeliveyTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeliveyMethod");
-                });
-
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.Order", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BuyerEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DeliveyMethodId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("OrderDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("PaymentIntentId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("SubTotal")
-                        .HasColumnType("decimal(12,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DeliveyMethodId");
-
-                    b.ToTable("Order");
-                });
-
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.OrderItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(12,2)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItem");
-                });
-
-            modelBuilder.Entity("Talabat.Core.Entities.Product.Product", b =>
-                {
-                    b.HasOne("Talabat.Core.Entities.Product.ProductBrand", "Brand")
-                        .WithMany()
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Talabat.Core.Entities.Product.ProductCategory", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
-
-                    b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.Order", b =>
-                {
-                    b.HasOne("Talabat.Core.Entitites.Order_Aggregate.DeliveyMethod", "DeliveyMethod")
+                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", "DeliveyMethod")
                         .WithMany()
                         .HasForeignKey("DeliveyMethodId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
-                    b.OwnsOne("Talabat.Core.Entitites.Order_Aggregate.Address", "ShippingAddress", b1 =>
+                    b.OwnsOne("Talabat.Core.Entities.Order_Aggregate.Order.ShippingAddress#Talabat.Core.Entities.Order_Aggregate.Address", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
@@ -240,7 +217,7 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Order");
+                            b1.ToTable("Orders", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -252,14 +229,14 @@ namespace Talabat.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.OrderItem", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.OrderItem", b =>
                 {
-                    b.HasOne("Talabat.Core.Entitites.Order_Aggregate.Order", null)
+                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.Order", null)
                         .WithMany("Items")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.OwnsOne("Talabat.Core.Entitites.Order_Aggregate.ProductItemOrdered", "Product", b1 =>
+                    b.OwnsOne("Talabat.Core.Entities.Order_Aggregate.OrderItem.Product#Talabat.Core.Entities.Order_Aggregate.ProductItemOrdered", "Product", b1 =>
                         {
                             b1.Property<int>("OrderItemId")
                                 .HasColumnType("int");
@@ -277,7 +254,7 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderItem");
+                            b1.ToTable("OrdersItems", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");
@@ -287,7 +264,26 @@ namespace Talabat.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Talabat.Core.Entitites.Order_Aggregate.Order", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.Product", b =>
+                {
+                    b.HasOne("Talabat.Core.Entities.ProductBrand", "Brand")
+                        .WithMany()
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Talabat.Core.Entities.ProductCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.Order", b =>
                 {
                     b.Navigation("Items");
                 });

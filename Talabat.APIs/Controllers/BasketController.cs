@@ -12,43 +12,37 @@ namespace Talabat.APIs.Controllers
     [ApiController]
     public class BasketController : BaseApiController
     {
-        private readonly IBasketRepository _basketRepository;
+        private readonly IBasketRepository _basketRepo;
         private readonly IMapper _mapper;
 
-        public BasketController(
-            IBasketRepository basketRepository,
-            IMapper mapper)
+        public BasketController(IBasketRepository basketRepo, IMapper mapper)
         {
-            _basketRepository = basketRepository;
+            _basketRepo = basketRepo;
             _mapper = mapper;
         }
 
-        [HttpGet()]
-        public async Task<ActionResult<CustomerBasket>> GetBasket(string id)
+        [HttpGet]
+        public async Task<ActionResult<CustomerBasket>> GetCustomerBasket(string id)
         {
-            var basket = await _basketRepository.GetBasketAsync(id);
-
-            return basket ?? new CustomerBasket(id);
+            var basket = await _basketRepo.GetBasketAsync(id);
+            if (basket is null)
+                return NotFound(new ApiResponse(404));
+            return Ok(basket);
         }
 
         [HttpPost]
-        public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasketDto basket)
+        public async Task<ActionResult<CustomerBasket>> UpdateCustomerBasket(CustomerBasketDto basket)
         {
             var mappedBasket = _mapper.Map<CustomerBasketDto, CustomerBasket>(basket);
-            var createdOrUpdatedBasket = await _basketRepository.UpdateBasketAsync(mappedBasket);
-
-            if (createdOrUpdatedBasket is null)
-            {
-                return BadRequest(new ApiResponse(400));
-            }
-
-            return Ok(createdOrUpdatedBasket);
+            var returnedBasket = await _basketRepo.UpdateBasketAsync(mappedBasket);
+            if (returnedBasket is null) return BadRequest(new ApiResponse(400));
+            return Ok(returnedBasket);
         }
 
         [HttpDelete]
-        public async Task DeleteBasket(string id)
+        public async Task DeleteCustomerBasket(string id)
         {
-            await _basketRepository.DeleteBasketAsync(id);
+            await _basketRepo.DeleteBasketAsync(id);
         }
     }
 }

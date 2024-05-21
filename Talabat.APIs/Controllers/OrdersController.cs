@@ -21,20 +21,21 @@ namespace Talabat.APIs.Controllers
             _mapper = mapper;
         }
 
-        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderToReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Order?>> CreateOrder(OrderDTO model)
+        public async Task<ActionResult<OrderToReturnDTO?>> CreateOrder(OrderDTO model)
         {
             var address = _mapper.Map<ShippingAddressDTO, ShippingAddress>(model.ShippingAddress);
+
             var order = await _orderService.CreateOrderAsync(model.BuyerEmail, model.BasketId, model.DeliveryMethodId, address);
-            if (order is null)
-                return BadRequest(new ApiResponse(400));
-            return Ok(order);
+            if (order is null) return BadRequest(new ApiResponse(400));
+            var orderToReturnDto = _mapper.Map<Core.Entities.Order_Aggregate.Order, OrderToReturnDTO>(order);
+            return Ok(orderToReturnDto);
         }
 
-        [HttpGet]
+        [HttpGet] // GET : /api/Orders?email=""
         public async Task<ActionResult<IReadOnlyList<OrderToReturnDTO>>> GetOrdersForUser()
         {
             var email = User.FindFirstValue(ClaimTypes.Email) ?? String.Empty;
@@ -43,7 +44,7 @@ namespace Talabat.APIs.Controllers
             return Ok(orderToReturnDto);
         }
 
-        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderToReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         [Authorize]
@@ -52,7 +53,8 @@ namespace Talabat.APIs.Controllers
             var email = User.FindFirstValue(ClaimTypes.Email) ?? String.Empty;
             var order = await _orderService.GetOrderByIdForUserAsync(email, id);
             if (order is null) return NotFound(new ApiResponse(404));
-            return Ok(order);
+            var orderToReturnDto = _mapper.Map<Core.Entities.Order_Aggregate.Order, OrderToReturnDTO>(order);
+            return Ok(orderToReturnDto);
         }
 
         [HttpGet("deliverymethods")]

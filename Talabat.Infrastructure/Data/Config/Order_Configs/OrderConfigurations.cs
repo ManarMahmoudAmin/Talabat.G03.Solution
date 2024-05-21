@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Entities.Order_Aggregate;
 
-namespace Talabat.Infrastructure._Data.Config.Order_Configs
+namespace Talabat.Infrastructure.Data.Config.Order_Configs
 {
 	internal class OrderConfigurations : IEntityTypeConfiguration<Order>
 	{

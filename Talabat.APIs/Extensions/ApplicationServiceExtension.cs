@@ -13,6 +13,7 @@ using Talabat.Core;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Services.Contract;
 using Talabat.Infrastructure;
+using Talabat.Infrastructure.Basket_Repository;
 
 namespace Talabat.APIs.Extensions
 {
@@ -22,32 +23,28 @@ namespace Talabat.APIs.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped(typeof(IOrderService), typeof(OrderService));
-            // services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            //services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddScoped(typeof(IProductService), typeof(ProductService));
-
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
 
-			services.AddAutoMapper(typeof(MappingProfiles));
-
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.Configure<ApiBehaviorOptions>(options =>
             {
-
                 options.InvalidModelStateResponseFactory = (actionContext) =>
                 {
-                    var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count() > 0)
-                    .SelectMany(P => P.Value.Errors)
-                    .Select(E => E.ErrorMessage)
-                    .ToList();
-
-                    var response = new ApiValidationErrorResponse()
+                    var errors = actionContext.ModelState.Where(P => P.Value.Errors.Count > 0)
+                                                        .SelectMany(P => P.Value.Errors)
+                                                        .Select(E => E.ErrorMessage)
+                                                        .ToArray();
+                    var resonse = new ApiValidationErrorResponse()
                     {
                         Errors = errors
                     };
-                    return new BadRequestObjectResult(response);
+
+                    return new BadRequestObjectResult(resonse);
                 };
             });
-
-
+            services.AddScoped(typeof(IBasketRepository), typeof(BasketRepository));
             return services;
         }
 

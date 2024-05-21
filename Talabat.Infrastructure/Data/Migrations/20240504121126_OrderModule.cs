@@ -12,7 +12,7 @@ namespace Talabat.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DeliveyMethod",
+                name: "DeliveryMethods",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -24,11 +24,11 @@ namespace Talabat.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeliveyMethod", x => x.Id);
+                    table.PrimaryKey("PK_DelivreyMethods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -41,23 +41,23 @@ namespace Talabat.Infrastructure.Data.Migrations
                     ShippingAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveyMethodId = table.Column<int>(type: "int", nullable: false),
+                    DeliveyMethodId = table.Column<int>(type: "int", nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_DeliveyMethod_DeliveyMethodId",
+                        name: "FK_Orders_DelivreyMethods_DeliveyMethodId",
                         column: x => x.DeliveyMethodId,
-                        principalTable: "DeliveyMethod",
+                        principalTable: "DeliveryMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "OrdersItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -71,23 +71,23 @@ namespace Talabat.Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.Id);
+                    table.PrimaryKey("PK_OrdersItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Order_OrderId",
+                        name: "FK_OrdersItems_Orders_OrderId",
                         column: x => x.OrderId,
-                        principalTable: "Order",
+                        principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_DeliveyMethodId",
-                table: "Order",
+                name: "IX_Orders_DeliveyMethodId",
+                table: "Orders",
                 column: "DeliveyMethodId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItem_OrderId",
-                table: "OrderItem",
+                name: "IX_OrdersItems_OrderId",
+                table: "OrdersItems",
                 column: "OrderId");
         }
 
@@ -95,13 +95,13 @@ namespace Talabat.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "OrderItem");
+                name: "OrdersItems");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "DeliveyMethod");
+                name: "DeliveryMethods");
         }
     }
 }

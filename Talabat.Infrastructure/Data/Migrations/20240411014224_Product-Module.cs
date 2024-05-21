@@ -5,7 +5,7 @@
 namespace Talabat.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Manar : Migration
+    public partial class ProductModule : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

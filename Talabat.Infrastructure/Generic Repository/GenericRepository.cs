@@ -8,15 +8,15 @@ using Talabat.Core.Entities;
 using Talabat.Core.Entities.Product;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Core.Specifications;
-using Talabat.Infrastructure._Data;
+using Talabat.Infrastructure.Data;
 
 namespace Talabat.Infrastructure
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
-        private readonly StoreContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        public GenericRepository(StoreContext dbContext)
+        public GenericRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }

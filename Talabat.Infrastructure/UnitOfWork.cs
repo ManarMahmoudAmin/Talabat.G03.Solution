@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 using Talabat.Core;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories.Contract;
-using Talabat.Infrastructure._Data;
+using Talabat.Infrastructure.Data;
 
 namespace Talabat.Infrastructure
 {
 	public class UnitOfWork : IUnitOfWork
 	{
-		private readonly StoreContext _dbContext;
+		private readonly ApplicationDbContext _dbContext;
 		private Hashtable _repositories;
 
-		public UnitOfWork(StoreContext dbContext)
+		public UnitOfWork(ApplicationDbContext dbContext)
 		{
 			_dbContext = dbContext;
 			_repositories = new Hashtable();

@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Talabat.Infrastructure._Data;
-
+using Talabat.Infrastructure.Data;
+using Talabat.Infrastructure.Data;
 
 #nullable disable
 
 namespace Talabat.Infrastructure.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
-    [Migration("20240419035347_Manar")]
-    partial class Manar
+    [DbContext(typeof(ApplicationDbContext))]
+    [Migration("20240411014224_Product-Module")]
+    partial class ProductModule
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.APIs.Errors;
-using Talabat.Infrastructure._Data;
+using Talabat.Infrastructure.Data;
 
 namespace Talabat.APIs.Controllers
 {
@@ -9,48 +9,50 @@ namespace Talabat.APIs.Controllers
     [ApiController]
     public class BuggyController : BaseApiController
     {
-        private readonly StoreContext _storeContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        public BuggyController(StoreContext storeContext)
+        public BuggyController(ApplicationDbContext storeContext)
         {
-            _storeContext = storeContext;
+            _dbContext = storeContext;
         }
         [HttpGet("notfound")] // GET: /api/Buggy/notfound
         public ActionResult GetNotFoundError()
         {
-            var product = _storeContext.Products.Find(1000);
-            if(product is null)
+            var product = _dbContext.Products.Find(1000);
+            if (product is null)
                 return NotFound(new ApiResponse(404));
             return Ok(product);
         }
-        
+
         [HttpGet("servererror")] // GET: /api/Buggy/servererror
         public ActionResult GetSeverError()
         {
-            var product = _storeContext.Products.Find(1000);
+            var product = _dbContext.Products.Find(1000);
             var productToReturn = product.ToString();
             return Ok(productToReturn);
         }
-        
+
         [HttpGet("badrequest")] // GET:/api/Buggy/badrequest
         public ActionResult GetBadRequest()
         {
             return BadRequest(new ApiResponse(400));
         }
-        
+
         [HttpGet("badrequest/{id}")] // GET: /api/Buggy/badrequest/five
         public ActionResult GetBadRequest(int id) // Validation Error
         {
             return Ok();
         }
-        
+
         [HttpGet("unauthorized")] // GET: /api/Buggy/unauthorized
         public ActionResult GetUnAuthorizedError()
         {
-            return Unauthorized(new ApiResponse(401));  
+            return Unauthorized(new ApiResponse(401));
         }
-        
-        
+
+
+
+
 
     }
 }
