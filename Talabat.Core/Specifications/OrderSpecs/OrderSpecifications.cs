@@ -22,7 +22,7 @@ namespace Talabat.Core.Specifications.OrderSpecs
             private void AddInclides()
             {
                 Includes.Add(order => order.Items);
-                Includes.Add(order => order.DeliveyMethod);
+                Includes.Add(order => order.DeliveryMethod);
 
 
             }
