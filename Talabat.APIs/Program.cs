@@ -47,7 +47,6 @@ namespace Talabat.APIs
                 return ConnectionMultiplexer.Connect(connection);
             });
 
-            webApplicationBuilder.Services.AddApplicationServices();
 
             webApplicationBuilder.Services.AddDbContext<ApplicationIdentityDbContext>((options) => {
                 options.UseSqlServer(webApplicationBuilder.Configuration.GetConnectionString("IdentityConnection"));
@@ -60,6 +59,7 @@ namespace Talabat.APIs
 
             webApplicationBuilder.Services.AddAuthServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddApplicationServices();
             #endregion
 
             var app = webApplicationBuilder.Build();

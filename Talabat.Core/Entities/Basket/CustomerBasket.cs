@@ -15,5 +15,11 @@ namespace Talabat.Core.Entities.Basket
         {
             Id = id;
         }
+
+        public string? PaymenyIntentId { get; set; }
+        public string? ClintSecret { get; set; }
+
+        public decimal? ShippingPrice { get; set; }
+        public int? DeliveryMethodId { get; set; }
     }
 }
