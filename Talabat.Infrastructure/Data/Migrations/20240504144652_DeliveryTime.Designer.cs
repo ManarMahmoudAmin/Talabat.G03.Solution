@@ -189,7 +189,7 @@ namespace Talabat.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.Order", b =>
                 {
-                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", "DeliveryMethod")
+                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", "DeliveyMethod")
                         .WithMany()
                         .HasForeignKey("DeliveyMethodId")
                         .OnDelete(DeleteBehavior.SetNull);
@@ -227,7 +227,7 @@ namespace Talabat.Infrastructure.Data.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.Navigation("DeliveryMethod");
+                    b.Navigation("DeliveyMethod");
 
                     b.Navigation("ShippingAddress")
                         .IsRequired();

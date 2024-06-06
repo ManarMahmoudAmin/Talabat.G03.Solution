@@ -20,13 +20,10 @@ namespace Talabat.Application.OrderService
         ///private readonly IGenericRepository<DelivreyMethod> _deliveryMethodsRepo;
         ///private readonly IGenericRepository<Order> _orderRepo;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IPaymentService _paymentService;
-
 
         public OrderService(
             IBasketRepository basketRepo,
-            IUnitOfWork unitOfWork,
-            IPaymentService paymentService
+            IUnitOfWork unitOfWork
             ///IGenericRepository<Product> productsRepo, 
             ///IGenericRepository<DelivreyMethod> deliveryMethodsRepo,
             ///IGenericRepository<Order> orderRepo
@@ -34,7 +31,6 @@ namespace Talabat.Application.OrderService
         {
             _basketRepo = basketRepo;
             _unitOfWork = unitOfWork;
-            _paymentService = paymentService;
             ///_productsRepo = productsRepo;
             ///_deliveryMethodsRepo = deliveryMethodsRepo;
             ///_orderRepo = orderRepo;
@@ -63,18 +59,16 @@ namespace Talabat.Application.OrderService
 
             // 4. Get Delivery Method From DeliveryMethods Repo
             var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetAsync(deliveryMethodId);
-            var orderSpec = new OrderWithPaymenyIntentIdSpecs(basket.PaymenyIntentId);
-            var orderRepo = _unitOfWork.Repository<Order>();
-            var exsistingOrder = await orderRepo.GetWithSpecAsync(orderSpec);
-
-            if (exsistingOrder is not null)
-            {
-                orderRepo.Delete(exsistingOrder);
-                await _paymentService.CreateOrUpdatePaymentIntent(basket.Id);
-            }
             // 5. Create Order
-            Order order = new Order(buyerEmail: buyerEmail, shippingAddress: shippingAddress, deliveryMethod: deliveryMethod, items: orderItems, subTotal: subTotal, paymentIntentId: basket.PaymenyIntentId);
-            orderRepo.Add(order);
+            Order order = new Order()
+            {
+                BuyerEmail = buyerEmail,
+                DeliveyMethod = deliveryMethod,
+                ShippingAddress = shippingAddress,
+                SubTotal = subTotal,
+                Items = orderItems,
+            };
+            _unitOfWork.Repository<Order>().Add(order);
 
             // 6. Save To Database [TODO]
             var result = await _unitOfWork.Compelete();
