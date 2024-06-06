@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -60,24 +61,23 @@ namespace Talabat.Infrastructure.Data
                            dbContext.Set<Product>().Add(product);
                        }
                        await dbContext.SaveChangesAsync();
-                   }
+                }
             }
 
-               if (!dbContext.DeliveryMethods.Any())
-               {
-                   var deliveryMethodsData = File.ReadAllText("../Talabat.Infrastructure/Data/DataSeed/delivery.json");
+            if (!dbContext.DeliveryMethods.Any())
+            {
+                var deliveryMethodsData = File.ReadAllText("../Talabat.Infrastructure/Data/DataSeed/delivery.json");
+                var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodsData);
 
-                   var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodsData);
-
-                   if (deliveryMethods?.Count > 0)
-                   {
-                       foreach (var deliveryMethod in deliveryMethods)
-                       {
-                           dbContext.Set<DeliveryMethod>().Add(deliveryMethod);
-                       }
-                       await dbContext.SaveChangesAsync();
-                   }
-               }
+                if (deliveryMethods?.Count > 0)
+                {
+                    foreach (var deliveryMethod in deliveryMethods)
+                    {
+                        dbContext.Set<DeliveryMethod>().Add(deliveryMethod);
+                    }
+                    await dbContext.SaveChangesAsync();
+                }
             }
+        }
         }
     }

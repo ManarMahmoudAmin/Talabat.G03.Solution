@@ -8,6 +8,8 @@ using Talabat.Core;
 using Talabat.Core.Entities;
 using Talabat.Core.Repositories.Contract;
 using Talabat.Infrastructure.Data;
+using Talabat.Infrastructure;
+using Talabat.Infrastructure.Generic_Repository;
 
 namespace Talabat.Infrastructure
 {

@@ -13,8 +13,8 @@ namespace Talabat.APIs.DTOs
 
         public ShippingAddress ShippingAddress { get; set; }
 
-        public string DeliveyMethod { get; set; }
-        public decimal DeliveyMethodCoast { get; set; }
+        public string DeliveryMethod { get; set; }
+        public decimal DeliveryMethodCoast { get; set; }
 
         public ICollection<OrderItemDTO> Items { get; set; } = new HashSet<OrderItemDTO>();
 

@@ -20,11 +20,11 @@ namespace Talabat.Infrastructure.Data.Migrations
                     ShortName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Cost = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
-                    DeliveyTime = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DeliveryTime = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DelivreyMethods", x => x.Id);
+                    table.PrimaryKey("PK_DeliveryMethods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -41,7 +41,7 @@ namespace Talabat.Infrastructure.Data.Migrations
                     ShippingAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveyMethodId = table.Column<int>(type: "int", nullable: true),
+                    DeliveryMethodId = table.Column<int>(type: "int", nullable: true),
                     SubTotal = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -49,8 +49,8 @@ namespace Talabat.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_DelivreyMethods_DeliveyMethodId",
-                        column: x => x.DeliveyMethodId,
+                        name: "FK_Orders_DeliveryMethods_DeliveryMethodId",
+                        column: x => x.DeliveryMethodId,
                         principalTable: "DeliveryMethods",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
@@ -81,9 +81,9 @@ namespace Talabat.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_DeliveyMethodId",
+                name: "IX_Orders_DeliveryMethodId",
                 table: "Orders",
-                column: "DeliveyMethodId");
+                column: "DeliveryMethodId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrdersItems_OrderId",

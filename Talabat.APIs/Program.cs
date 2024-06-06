@@ -1,27 +1,13 @@
-
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
-using Talabat.APIs.Errors;
 using Talabat.APIs.Extensions;
-using StackExchange.Redis;
 using Talabat.Application.Auth_Service;
-using Talabat.APIs.Helpers;
 using Talabat.APIs.Middlewares;
-using Talabat.Core.Repositories.Contract;
-using Talabat.Infrastructure;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
-using Microsoft.Extensions.DependencyInjection;
-using Talabat.Infrastructure.Basket_Repository;
 using Talabat.Infrastructure.Data;
 using Talabat.Infrastructure._Identity;
 using Microsoft.AspNetCore.Identity;
 using Talabat.Core.Entities.Identity;
 using Talabat.Core.Services.Contract;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace Talabat.APIs
 {

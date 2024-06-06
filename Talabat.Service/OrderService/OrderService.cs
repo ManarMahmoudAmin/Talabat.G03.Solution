@@ -17,7 +17,7 @@ namespace Talabat.Application.OrderService
     {
         private readonly IBasketRepository _basketRepo;
         ///private readonly IGenericRepository<Product> _productsRepo;
-        ///private readonly IGenericRepository<DelivreyMethod> _deliveryMethodsRepo;
+        ///private readonly IGenericRepository<DeliveryMethod> _deliveryMethodsRepo;
         ///private readonly IGenericRepository<Order> _orderRepo;
         private readonly IUnitOfWork _unitOfWork;
 
@@ -25,7 +25,7 @@ namespace Talabat.Application.OrderService
             IBasketRepository basketRepo,
             IUnitOfWork unitOfWork
             ///IGenericRepository<Product> productsRepo, 
-            ///IGenericRepository<DelivreyMethod> deliveryMethodsRepo,
+            ///IGenericRepository<DeliveryMethod> deliveryMethodsRepo,
             ///IGenericRepository<Order> orderRepo
             )
         {
@@ -63,7 +63,7 @@ namespace Talabat.Application.OrderService
             Order order = new Order()
             {
                 BuyerEmail = buyerEmail,
-                DeliveyMethod = deliveryMethod,
+                DeliveryMethod = deliveryMethod,
                 ShippingAddress = shippingAddress,
                 SubTotal = subTotal,
                 Items = orderItems,
@@ -78,7 +78,7 @@ namespace Talabat.Application.OrderService
             return order;
         }
 
-        public async Task<IReadOnlyList<DeliveryMethod>> GetDelivreyMethodsAsync()
+        public async Task<IReadOnlyList<DeliveryMethod>> GetDeliveryMethodsAsync()
             => await _unitOfWork.Repository<DeliveryMethod>().GetAllAsync();
 
         public async Task<Order?> GetOrderByIdForUserAsync(string buyerEmail, int orderId)

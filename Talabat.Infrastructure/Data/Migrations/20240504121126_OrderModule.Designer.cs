@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Talabat.Infrastructure.Data;
-using Talabat.Infrastructure.Data;
+
 
 #nullable disable
 
@@ -26,7 +26,7 @@ namespace Talabat.Infrastructure.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", b =>
+            modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.DeliveryMethod", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,7 +37,7 @@ namespace Talabat.Infrastructure.Data.Migrations
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(12,2)");
 
-                    b.Property<string>("DeliveyTime")
+                    b.Property<string>("DeliveryTime")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -66,7 +66,7 @@ namespace Talabat.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DeliveyMethodId")
+                    b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("OrderDate")
@@ -85,7 +85,7 @@ namespace Talabat.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DeliveyMethodId");
+                    b.HasIndex("DeliveryMethodId");
 
                     b.ToTable("Orders");
                 });
@@ -189,9 +189,9 @@ namespace Talabat.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Talabat.Core.Entities.Order_Aggregate.Order", b =>
                 {
-                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.DelivreyMethod", "DeliveyMethod")
+                    b.HasOne("Talabat.Core.Entities.Order_Aggregate.DeliveryMethod", "DeliveryMethod")
                         .WithMany()
-                        .HasForeignKey("DeliveyMethodId")
+                        .HasForeignKey("DeliveryMethodId")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.OwnsOne("Talabat.Core.Entities.Order_Aggregate.Address", "ShippingAddress", b1 =>
@@ -227,7 +227,7 @@ namespace Talabat.Infrastructure.Data.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
-                    b.Navigation("DeliveyMethod");
+                    b.Navigation("DeliveryMethod");
 
                     b.Navigation("ShippingAddress")
                         .IsRequired();

@@ -11,7 +11,7 @@ namespace Talabat.Infrastructure.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "DeliveyTime",
+                name: "DeliveryTime",
                 table: "DeliveryMethods",
                 newName: "DeliveryTime");
         }
@@ -22,7 +22,7 @@ namespace Talabat.Infrastructure.Data.Migrations
             migrationBuilder.RenameColumn(
                 name: "DeliveryTime",
                 table: "DeliveryMethods",
-                newName: "DeliveyTime");
+                newName: "DeliveryTime");
         }
     }
 }

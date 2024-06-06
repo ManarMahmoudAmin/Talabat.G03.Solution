@@ -23,7 +23,7 @@ namespace Talabat.Infrastructure.Data.Config.Order_Configs
 				);
 			builder.Property(order => order.SubTotal).HasColumnType("decimal(12,2)");
 
-			builder.HasOne(order => order.DeliveyMethod).WithMany().OnDelete(DeleteBehavior.SetNull);
+			builder.HasOne(order => order.DeliveryMethod).WithMany().OnDelete(DeleteBehavior.SetNull);
 
 			builder.HasMany(order => order.Items).WithOne().OnDelete(DeleteBehavior.Cascade);
 

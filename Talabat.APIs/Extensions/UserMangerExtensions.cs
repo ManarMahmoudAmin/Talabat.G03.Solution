@@ -8,11 +8,11 @@ namespace Talabat.APIs.Extensions
 {
 	public static class UserMangerExtensions
 	{
-		public static async Task<ApplicationUser> FindUserWithAddressAsync(this UserManager<ApplicationUser> userManager, ClaimsPrincipal User)
+		public static async Task<ApplicationUser?> FindUserWithAddressAsync(this UserManager<ApplicationUser> userManager, ClaimsPrincipal User)
 		{
-			var email = User.FindFirstValue(ClaimTypes.Email) ?? string.Empty;
+			var email = User.FindFirstValue(ClaimTypes.Email);
 
-			var user = await userManager.Users.Include(user => user.Address).FirstOrDefaultAsync(u => u.NormalizedEmail == email.ToUpper());
+			var user = await userManager.Users.Include(user => user.Address).FirstOrDefaultAsync(user => user.NormalizedEmail == email.ToUpper());
 
 			return user;
 		}

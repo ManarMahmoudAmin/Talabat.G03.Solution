@@ -4,7 +4,7 @@ namespace Talabat.APIs.DTOs
 {
     public class OrderDTO
     {
-        [Required]
+        
         public string BuyerEmail { get; set; }
         [Required]
         public string BasketId { get; set; }
